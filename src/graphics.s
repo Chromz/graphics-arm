@@ -217,7 +217,23 @@ reconstruct:
 	.unreq width
 	.unreq height
 	.unreq matrix_addr
-	pop {lr}
+	pop {pc}
+
+
+
+.global reconstruct_goku
+reconstruct_goku:
+	push {lr}
+	ldr r0, =goku_x
+	ldr r0, [r0]
+	ldr r1, =goku_y
+	ldr r1, [r1]
+	ldr r2, =Width_gok0
+	ldr r2, [r2]
+	ldr r3, =Height_gok0
+	ldr r3, [r3]
+	bl reconstruct
+	pop {pc}
 
 @ R0, Width
 @ R1, X

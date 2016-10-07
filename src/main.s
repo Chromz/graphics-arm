@@ -11,22 +11,12 @@ main:
 
 	bl draw_bg
 	render$:
-		@ldr r0, =goku_x
-		@ldr r0, [r0]
-		@ldr r1, =goku_y
-		@ldr r1, [r1]
-		@ldr r2, =Width_gok0
-		@ldr r2, [r2]
-		@ldr r3, =Height_gok0
-		@ldr r3,[r3]
-		mov r0, #50
-		mov r1, #300
-		mov r2, #66
-		mov r3, #98
-		bl reconstruct @ Reconstruir solo un pedazo del mapa
+
+		@bl reconstruct_goku
 
 		bl getkey
 		cmp r0, #'A'
+		bleq reconstruct_goku
 		ldreq r1, =goku_x
 		ldreq r1, [r1]
 		addeq r1, #30
