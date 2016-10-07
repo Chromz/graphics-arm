@@ -30,7 +30,7 @@ main:
 	bl draw_bg
 	render$:
 
-		
+		@bl update_physics @ Aplicarle las fisicas al juego
 		bl process_input @ Procesar el input del teclado
 		bl draw_goku @ Dibujar a Goku
 		
@@ -38,6 +38,8 @@ main:
 	
 	
 .data
+@ Variables de animacion de Goku
+@ -------------------------------------
 .global anim_counter
 anim_counter: .word 0
 .global anim_tolerance
@@ -50,10 +52,26 @@ goku_width: .word 0
 goku_height: .word 0
 .global goku_addr
 goku_addr: .word 0
+@ -------------------------------------
+
+@ Variables de control de las fisicas del mundo
+@ -------------------------------------
+.global gravity
+gravity: .word 1
+@ -------------------------------------
+
+
+@ Variables de control de las fisicas de Goky
+@-------------------------------------
+.global goku_velocity_x
+goku_velocity_x: .word 0
+.global goku_velocity_y
+goku_velocity_y: .word -1
 .global goku_x
 goku_x: .word 50
 .global goku_y
-goku_y: .word 300
+goku_y: .word 200
 chaa: .byte 'a'
+@ -------------------------------------
 .global pixelAddr
 pixelAddr: .word 0

@@ -277,6 +277,61 @@ reconstruct_goku:
 	pop {pc}
 
 
+/*
+.global update_physics
+update_physics:
+	
+	push {lr}
+
+	@ Cargar las variables de Goku
+	ldr r0, =goku_x
+	ldr r0, [r0]
+
+	ldr r1, =goku_y
+	ldr r1, [r1]
+
+	ldr r2, =gravity
+	ldr r2, [r2]
+
+	ldr r3, =goku_velocity_x
+	ldr r3, [r3]
+
+	ldr r4, =goku_velocity_y
+	ldr r4, [r4]
+
+	gokux .req r0
+	gokuy .req r1
+	grav .req r2
+	goku_v_x .req r3
+	goku_v_y .req r4
+
+	add gokuy, goku_v_y
+	ldr r5, =goku_y
+	str gokuy, [r5]
+
+	cmp r1, #300 @ Comparar si colisiona con el piso
+	blt apply_gravity
+	bge collides_w_floor
+
+
+	apply_gravity:
+		add goku_v_y, grav @ Aplicar la gravedad a la velocidad
+		ldr r5, =goku_velocity_y
+		str goku_v_y, [r5]
+		bl reconstruct_goku
+		b end_grav
+
+	collides_w_floor:
+		ldr r5, =goku_velocity_y
+		mov goku_v_y, #0
+		str goku_v_y, [r5]
+		@bl reconstruct_goku
+
+	end_grav:
+		
+
+	pop {pc}*/
+
 .global process_input
 process_input:
 	push {lr}
@@ -285,7 +340,7 @@ process_input:
 	bleq reconstruct_goku
 	ldreq r1, =goku_x
 	ldreq r1, [r1]
-	addeq r1, #30
+	addeq r1, #7
 	ldreq r0, =goku_x
 	streq r1, [r0]
 	pop {pc}
