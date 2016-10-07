@@ -7,31 +7,49 @@ main:
 	ldr r1,=pixelAddr
 	str r0,[r1]
 
+	@ Cargar el sprite inicial de Goku
+	ldr r0, =Image_Matrix_gok0
+	ldr r1, =goku_addr
+	str r0, [r1]
+
+	@ Establecer el Width inicial de Goku
+	ldr r0, =Width_gok0
+	ldr r0, [r0]
+	ldr r1, =goku_width
+	str r0, [r1]
+
+	@ Establecer el Height inicial de Goku
+	ldr r0, =Height_gok0
+	ldr r0, [r0]
+	ldr r1, =goku_height
+	str r0, [r1]
+
+	@ Configurar la consola de linux para leer el teclado
 	bl enable_key_config
 
 	bl draw_bg
 	render$:
 
-		@bl reconstruct_goku
-
-		bl getkey
-		cmp r0, #'A'
-		bleq reconstruct_goku
-		ldreq r1, =goku_x
-		ldreq r1, [r1]
-		addeq r1, #30
-		ldreq r0, =goku_x
-		streq r1, [r0]
 		
-		ldr r0, =goku_x
-		ldr r0,[r0]
-		ldr r1, =goku_y
-		ldr r1,[r1]
-		bl draw_goku
+		bl process_input @ Procesar el input del teclado
+		bl draw_goku @ Dibujar a Goku
+		
 	b render$
 	
 	
 .data
+.global anim_counter
+anim_counter: .word 0
+.global anim_tolerance
+anim_tolerance: .word 700
+.global goku_anim_turn
+goku_anim_turn: .word 0
+.global goku_width
+goku_width: .word 0
+.global goku_height
+goku_height: .word 0
+.global goku_addr
+goku_addr: .word 0
 .global goku_x
 goku_x: .word 50
 .global goku_y

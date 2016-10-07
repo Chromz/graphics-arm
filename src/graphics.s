@@ -130,22 +130,6 @@ draw_bg:
 	bl draw_image
 	pop {pc}
 
-@ R0, x init
-@ R1, y init
-.global draw_goku
-draw_goku:
-	push {lr}
-	mov r2, r1
-	mov r1, r0
-	ldr r0, =Image_Matrix_gok0
-	ldr r3, =Width_gok0
-	ldr r3, [r3]
-	ldr r4, =Height_gok0
-	ldr r4, [r4]
-	str r4, [sp, #-4]!
-	bl draw_hero
-	pop {pc}
-
 @ R0, x0 a reconstruir
 @ R1, y0 a reconstruir
 @ R2, Width de la reconstruccion
@@ -220,6 +204,63 @@ reconstruct:
 	pop {pc}
 
 
+.global draw_goku
+draw_goku:
+	push {lr}
+
+	@ Comprobar si es necesario el cambio de sprite
+	ldr r0, =anim_counter
+	ldr r0, [r0]
+	ldr r1, =anim_tolerance
+	ldr r1, [r1] @ Obtener la tolerancia de la animacion
+	cmp r0, r1 @ Comprobar cambio de sprite
+	addne r0, #1
+	ldrne r1, =anim_counter
+	strne r0, [r1] @ Actualizar el contador de la animacion
+	bne draw_gok
+	beq update_sprite_gok
+
+	update_sprite_gok:
+		ldr r0, =goku_anim_turn
+		ldr r0, [r0] @ Obtener el numero de animacion que toca
+		cmp r0, #0
+		ldreq r1, =goku_addr
+		ldreq r2, =Image_Matrix_gok1
+		streq r2, [r1]
+		cmp r0, #1
+		ldreq r1, =goku_addr
+		ldreq r2, =Image_Matrix_gok2
+		streq r2, [r1]
+		cmp r0, #2
+		ldreq r1, =goku_addr
+		ldreq r2, =Image_Matrix_gok0
+		streq r2, [r1]
+		moveq r0, #0
+		addne r0, #1
+
+		ldr r1, =goku_anim_turn
+		str r0, [r1] @ Guardar el turno siguiente
+		ldr r1, =anim_counter
+		mov r0, #0
+		str r0, [r1]
+		bl reconstruct_goku
+		b draw_gok
+
+	draw_gok:
+		ldr r1, =goku_x
+		ldr r1, [r1]
+		ldr r2, =goku_y
+		ldr r2, [r2] 
+		ldr r0, =goku_addr
+		ldr r0, [r0]
+		ldr r3, =goku_width
+		ldr r3, [r3]
+		ldr r4, =goku_height
+		ldr r4, [r4]
+		str r4, [sp, #-4]!
+		bl draw_hero
+	pop {pc}
+
 
 .global reconstruct_goku
 reconstruct_goku:
@@ -233,6 +274,20 @@ reconstruct_goku:
 	ldr r3, =Height_gok0
 	ldr r3, [r3]
 	bl reconstruct
+	pop {pc}
+
+
+.global process_input
+process_input:
+	push {lr}
+	bl getkey
+	cmp r0, #'A'
+	bleq reconstruct_goku
+	ldreq r1, =goku_x
+	ldreq r1, [r1]
+	addeq r1, #30
+	ldreq r0, =goku_x
+	streq r1, [r0]
 	pop {pc}
 
 @ R0, Width
