@@ -48,6 +48,7 @@ void handle_ctrl_c()
 int getkey() 
 {
     int caracter_leido;
-    caracter_leido = fgetc(stdin); // Cargar al caracter     
+    caracter_leido = fgetc(stdin); // Cargar al caracter
+    fflush(stdin); // Vaciar el buffer     
     return caracter_leido;
 }

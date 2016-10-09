@@ -218,33 +218,112 @@ draw_goku:
 	ldrne r1, =anim_counter
 	strne r0, [r1] @ Actualizar el contador de la animacion
 	bne draw_gok
-	beq update_sprite_gok
+	ldr r0, =goku_o
+	ldr r0, [r0]
+	cmp r0, #0
+	beq update_idle_gok
+	cmp r0, #1
+	beq update_movr_gok
 
-	update_sprite_gok:
+	update_idle_gok:
 		ldr r0, =goku_anim_turn
 		ldr r0, [r0] @ Obtener el numero de animacion que toca
 		cmp r0, #0
 		ldreq r1, =goku_addr
-		ldreq r2, =Image_Matrix_gok1
+		ldreq r2, =Image_Matrix_gok0
+		streq r2, [r1]
+		ldreq r1, =goku_width
+		ldreq r2, =Width_gok0
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =goku_height
+		ldreq r2, =Height_gok0
+		ldreq r2, [r2]
 		streq r2, [r1]
 		cmp r0, #1
 		ldreq r1, =goku_addr
-		ldreq r2, =Image_Matrix_gok2
+		ldreq r2, =Image_Matrix_gok1
+		streq r2, [r1]
+		ldreq r1, =goku_width
+		ldreq r2, =Width_gok1
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =goku_height
+		ldreq r2, =Height_gok1
+		ldreq r2, [r2]
 		streq r2, [r1]
 		cmp r0, #2
 		ldreq r1, =goku_addr
-		ldreq r2, =Image_Matrix_gok0
+		ldreq r2, =Image_Matrix_gok2
+		streq r2, [r1]
+		ldreq r1, =goku_width
+		ldreq r2, =Width_gok2
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =goku_height
+		ldreq r2, =Height_gok2
+		ldreq r2, [r2]
 		streq r2, [r1]
 		moveq r0, #0
 		addne r0, #1
+		b change_anim
 
-		ldr r1, =goku_anim_turn
-		str r0, [r1] @ Guardar el turno siguiente
-		ldr r1, =anim_counter
-		mov r0, #0
-		str r0, [r1]
-		bl reconstruct_goku
-		b draw_gok
+	update_movr_gok:
+		ldr r0, =goku_anim_turn
+		ldr r0, [r0] @ Obtener el numero de animacion que toca
+		cmp r0, #0
+		ldreq r1, =goku_addr
+		ldreq r2, =Image_Matrix_gok3
+		streq r2, [r1]
+		ldreq r1, =goku_width
+		ldreq r2, =Width_gok3
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =goku_height
+		ldreq r2, =Height_gok3
+		ldreq r2, [r2]
+		streq r2, [r1]
+		cmp r0, #1
+		ldreq r1, =goku_addr
+		ldreq r2, =Image_Matrix_gok4
+		streq r2, [r1]
+		ldreq r1, =goku_width
+		ldreq r2, =Width_gok4
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =goku_height
+		ldreq r2, =Height_gok4
+		ldreq r2, [r2]
+		streq r2, [r1]
+		cmp r0, #2
+		ldreq r1, =goku_addr
+		ldreq r2, =Image_Matrix_gok5
+		streq r2, [r1]
+		ldreq r1, =goku_width
+		ldreq r2, =Width_gok5
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =goku_height
+		ldreq r2, =Height_gok5
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r2, =lock_anim
+		moveq r1, #0
+		streqb r1, [r2]
+		moveq r0, #0
+
+		addne r0, #1
+		b change_anim
+
+
+		change_anim:
+			ldr r1, =goku_anim_turn
+			str r0, [r1] @ Guardar el turno siguiente
+			ldr r1, =anim_counter
+			mov r0, #0
+			str r0, [r1]
+			bl reconstruct_goku
+			b draw_gok
 
 	draw_gok:
 		ldr r1, =goku_x
@@ -269,10 +348,8 @@ reconstruct_goku:
 	ldr r0, [r0]
 	ldr r1, =goku_y
 	ldr r1, [r1]
-	ldr r2, =Width_gok0
-	ldr r2, [r2]
-	ldr r3, =Height_gok0
-	ldr r3, [r3]
+	mov r2, #65
+	mov r3, #95
 	bl reconstruct
 	pop {pc}
 
@@ -335,15 +412,47 @@ update_physics:
 .global process_input
 process_input:
 	push {lr}
+
 	bl getkey
-	cmp r0, #'A'
-	bleq reconstruct_goku
-	ldreq r1, =goku_x
-	ldreq r1, [r1]
-	addeq r1, #7
-	ldreq r0, =goku_x
-	streq r1, [r0]
-	pop {pc}
+	mov r1, r0
+	ldr r0, =lock_anim
+	ldrb r0, [r0]
+	cmp r0, #1
+	beq ex
+
+	cmp r1, #'C'
+	beq mov_r
+	cmp r1, #-1
+	beq idle
+	
+
+	idle:
+		ldr r0, =goku_o
+		mov r1, #0
+		str r1, [r0]
+		b ex
+
+
+	mov_r:
+		ldr r0, =lock_anim
+		mov r1, #1
+		strb r1, [r0]
+		ldr r0, =goku_o
+		mov r1, #1
+		str r1, [r0]
+		bl reconstruct_goku
+		ldr r1, =goku_x
+		ldr r1, [r1]
+		add r1, #20
+		ldr r0, =575
+		cmp r1, r0 @ Verificar si no colisiona con el borde de la derecha
+		ldrlt r0, =goku_x
+		strlt r1, [r0]
+		b ex
+
+	@ Se debe de resetear el anim_turn
+	ex:
+		pop {pc}
 
 @ R0, Width
 @ R1, X
