@@ -8,18 +8,18 @@ main:
 	str r0,[r1]
 
 	@ Cargar el sprite inicial de Goku
-	ldr r0, =Image_Matrix_gok0
+	ldr r0, =Image_Matrix_goku_idle_right1
 	ldr r1, =goku_addr
 	str r0, [r1]
 
 	@ Establecer el Width inicial de Goku
-	ldr r0, =Width_gok0
+	ldr r0, =Width_goku_idle_right1
 	ldr r0, [r0]
 	ldr r1, =goku_width
 	str r0, [r1]
 
 	@ Establecer el Height inicial de Goku
-	ldr r0, =Height_gok0
+	ldr r0, =Height_goku_idle_right1
 	ldr r0, [r0]
 	ldr r1, =goku_height
 	str r0, [r1]
@@ -33,10 +33,10 @@ main:
 		@bl update_physics @ Aplicarle las fisicas al juego
 		bl process_input @ Procesar el input del teclado
 		bl draw_goku @ Dibujar a Goku
-		
+
 	b render$
-	
-	
+
+
 .data
 @ Variables de bloqueo del input
 @ -------------------------------------
@@ -45,6 +45,8 @@ lock_anim: .byte 0 @ 1 es bloqueado 0 es sin bloqueo
 @ -------------------------------------
 @ Variables de animacion de Goku
 @ -------------------------------------
+.global goku_side
+goku_side: .word 0 @0 si esta a la derecha, 1 si esta a la izquierda
 .global anim_counter
 anim_counter: .word 0
 .global anim_tolerance
@@ -77,7 +79,7 @@ goku_velocity_y: .word -1
 .global goku_x
 goku_x: .word 50
 .global goku_y
-goku_y: .word 300
+goku_y: .word 310
 chaa: .byte 'a'
 @ -------------------------------------
 .global pixelAddr
