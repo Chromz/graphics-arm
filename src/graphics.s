@@ -728,13 +728,13 @@ process_input:
 	beq vegeta_keys
 
 	goku_keys:
-		cmp r1, #'A'
+		cmp r1, #'w'
 		beq upKey
-		cmp r1, #'B'
+		cmp r1, #'a'
 		beq downKey
-		cmp r1, #'C'
+		cmp r1, #'s'
 		beq rightKey
-		cmp r1, #'D'
+		cmp r1, #'d'
 		beq leftKey
 
 	vegeta_keys:
@@ -743,13 +743,13 @@ process_input:
 		cmp r0, #1
 		beq idles
 
-		cmp r1, #'t'
+		cmp r1, #'A'
 		beq upKey_veg
-		cmp r1, #'g'
+		cmp r1, #'B'
 		beq downKey_veg
-		cmp r1, #'h'
+		cmp r1, #'C'
 		beq rightKey_veg
-		cmp r1, #'f'
+		cmp r1, #'D'
 		beq leftKey_veg
 		bne idles
 
