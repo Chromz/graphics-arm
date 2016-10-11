@@ -298,78 +298,78 @@ draw_vegeta:
 			addne r0, #1
 			b change_anim_veg
 
-		update_movr_veg:
-			ldr r0, =vegeta_anim_turn
-			ldr r0, [r0] @ Obtener el numero de animacion que toca
-			cmp r0, #0
-			ldreq r1, =vegeta_addr
-			ldreq r2, =Image_Matrix_vegeta_right1
-			streq r2, [r1]
-			ldreq r1, =vegeta_width
-			ldreq r2, =Width_vegeta_right1
-			ldreq r2, [r2]
-			streq r2, [r1]
-			ldreq r1, =vegeta_height
-			ldreq r2, =Height_vegeta_right1
-			ldreq r2, [r2]
-			streq r2, [r1]
-			cmp r0, #1
-			ldreq r1, =vegeta_addr
-			ldreq r2, =Image_Matrix_vegeta_right2
-			streq r2, [r1]
-			ldreq r1, =vegeta_width
-			ldreq r2, =Width_vegeta_right2
-			ldreq r2, [r2]
-			streq r2, [r1]
-			ldreq r1, =vegeta_height
-			ldreq r2, =Height_vegeta_right2
-			ldreq r2, [r2]
-			streq r2, [r1]
+	update_movr_veg:
+		ldr r0, =vegeta_anim_turn
+		ldr r0, [r0] @ Obtener el numero de animacion que toca
+		cmp r0, #0
+		ldreq r1, =vegeta_addr
+		ldreq r2, =Image_Matrix_vegeta_right1
+		streq r2, [r1]
+		ldreq r1, =vegeta_width
+		ldreq r2, =Width_vegeta_right1
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =vegeta_height
+		ldreq r2, =Height_vegeta_right1
+		ldreq r2, [r2]
+		streq r2, [r1]
+		cmp r0, #1
+		ldreq r1, =vegeta_addr
+		ldreq r2, =Image_Matrix_vegeta_right2
+		streq r2, [r1]
+		ldreq r1, =vegeta_width
+		ldreq r2, =Width_vegeta_right2
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =vegeta_height
+		ldreq r2, =Height_vegeta_right2
+		ldreq r2, [r2]
+		streq r2, [r1]
 
-			ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
-			moveq r1, #0
-			streqb r1, [r2]
-			moveq r0, #0 @Se reinicia el contador de la animacion
+		ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
+		moveq r1, #0
+		streqb r1, [r2]
+		moveq r0, #0 @Se reinicia el contador de la animacion
 
-			addne r0, #1
-			b change_anim_veg
+		addne r0, #1
+		b change_anim_veg
 
 
-		update_movl_veg:
-			ldr r0, =vegeta_anim_turn
-			ldr r0, [r0] @ Obtener el numero de animacion que toca
-			cmp r0, #0
-			ldreq r1, =vegeta_addr
-			ldreq r2, =Image_Matrix_vegeta_left1
-			streq r2, [r1]
-			ldreq r1, =vegeta_width
-			ldreq r2, =Width_vegeta_left1
-			ldreq r2, [r2]
-			streq r2, [r1]
-			ldreq r1, =vegeta_height
-			ldreq r2, =Height_vegeta_left1
-			ldreq r2, [r2]
-			streq r2, [r1]
-			cmp r0, #1
-			ldreq r1, =vegeta_addr
-			ldreq r2, =Image_Matrix_vegeta_left2
-			streq r2, [r1]
-			ldreq r1, =vegeta_width
-			ldreq r2, =Width_vegeta_left2
-			ldreq r2, [r2]
-			streq r2, [r1]
-			ldreq r1, =vegeta_height
-			ldreq r2, =Height_vegeta_left2
-			ldreq r2, [r2]
-			streq r2, [r1]
+	update_movl_veg:
+		ldr r0, =vegeta_anim_turn
+		ldr r0, [r0] @ Obtener el numero de animacion que toca
+		cmp r0, #0
+		ldreq r1, =vegeta_addr
+		ldreq r2, =Image_Matrix_vegeta_left1
+		streq r2, [r1]
+		ldreq r1, =vegeta_width
+		ldreq r2, =Width_vegeta_left1
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =vegeta_height
+		ldreq r2, =Height_vegeta_left1
+		ldreq r2, [r2]
+		streq r2, [r1]
+		cmp r0, #1
+		ldreq r1, =vegeta_addr
+		ldreq r2, =Image_Matrix_vegeta_left2
+		streq r2, [r1]
+		ldreq r1, =vegeta_width
+		ldreq r2, =Width_vegeta_left2
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =vegeta_height
+		ldreq r2, =Height_vegeta_left2
+		ldreq r2, [r2]
+		streq r2, [r1]
 
-			ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
-			moveq r1, #0
-			streqb r1, [r2]
-			moveq r0, #0 @Se reinicia el contador de la animacion
+		ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
+		moveq r1, #0
+		streqb r1, [r2]
+		moveq r0, #0 @Se reinicia el contador de la animacion
 
-			addne r0, #1
-			b change_anim_veg
+		addne r0, #1
+		b change_anim_veg
 
 
 		change_anim_veg:
@@ -402,9 +402,9 @@ draw_goku:
 	push {lr}
 
 	@ Comprobar si es necesario el cambio de sprite
-	ldr r0, =anim_counter_veg
+	ldr r0, =anim_counter
 	ldr r0, [r0]
-	ldr r1, =anim_tolerance_veg
+	ldr r1, =anim_tolerance
 	ldr r1, [r1] @ Obtener la tolerancia de la animacion
 	cmp r0, r1 @ Comprobar cambio de sprite
 	addne r0, #1
@@ -466,6 +466,7 @@ draw_goku:
 			ldreq r2, =Height_goku_idle_right3
 			ldreq r2, [r2]
 			streq r2, [r1]
+
 			moveq r0, #0
 			addne r0, #1
 			b change_anim
@@ -509,6 +510,7 @@ draw_goku:
 			ldreq r2, =Height_goku_idle_left3
 			ldreq r2, [r2]
 			streq r2, [r1]
+
 			moveq r0, #0
 			addne r0, #1
 			b change_anim
@@ -540,7 +542,7 @@ draw_goku:
 		ldreq r2, =Height_goku_right2
 		ldreq r2, [r2]
 		streq r2, [r1]
-		cmp r0, #1
+		cmp r0, #2
 		ldreq r1, =goku_addr
 		ldreq r2, =Image_Matrix_goku_right3
 		streq r2, [r1]
@@ -588,7 +590,7 @@ draw_goku:
 		ldreq r2, =Height_goku_left2
 		ldreq r2, [r2]
 		streq r2, [r1]
-		cmp r0, #1
+		cmp r0, #2
 		ldreq r1, =goku_addr
 		ldreq r2, =Image_Matrix_goku_left3
 		streq r2, [r1]
@@ -730,18 +732,18 @@ process_input:
 	goku_keys:
 		cmp r1, #'w'
 		beq upKey
-		cmp r1, #'a'
-		beq downKey
 		cmp r1, #'s'
-		beq rightKey
+		beq downKey
 		cmp r1, #'d'
+		beq rightKey
+		cmp r1, #'a'
 		beq leftKey
 
 	vegeta_keys:
 		ldr r0, =lock_anim_veg
 		ldrb r0, [r0]
 		cmp r0, #1
-		beq idles
+		beq ex_process_input
 
 		cmp r1, #'A'
 		beq upKey_veg
@@ -751,24 +753,7 @@ process_input:
 		beq rightKey_veg
 		cmp r1, #'D'
 		beq leftKey_veg
-		bne idles
-
-	idles:
-		ldr r0, =lock_anim_veg
-		ldrb r0, [r0]
-		cmp r0, #0
-		ldreq r0, =vegeta_o
-		moveq r1, #0
-		streq r1, [r0]
-
-		ldr r0, =lock_anim
-		ldrb r0, [r0]
-		cmp r0, #0
-		ldreq r0, =goku_o
-		moveq r1, #0
-		streq r1, [r0]
-
-		b ex_process_input
+		bne ex_process_input
 
 	rightKey_veg:
 		ldr r0, =vegeta_side
@@ -862,6 +847,20 @@ process_input:
 
 	@ Se debe de resetear el anim_turn
 	ex_process_input:
+		ldr r0, =lock_anim_veg
+		ldrb r0, [r0]
+		cmp r0, #0
+		ldreq r2, =vegeta_o
+		moveq r1, #0
+		streq r1, [r2]
+
+		ldr r0, =lock_anim
+		ldrb r0, [r0]
+		cmp r0, #0
+		ldreq r2, =goku_o
+		moveq r1, #0
+		streq r1, [r2]
+
 		pop {pc}
 
 @ R0, Width

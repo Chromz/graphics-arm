@@ -119,7 +119,7 @@ vegeta_velocity_x: .word 0
 .global vegeta_velocity_y
 vegeta_velocity_y: .word -1
 .global vegeta_x
-vegeta_x: .word 350
+vegeta_x: .word 450
 .global vegeta_y
 vegeta_y: .word 320
 @ -------------------------------------
