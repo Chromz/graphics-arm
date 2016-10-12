@@ -261,6 +261,19 @@ draw_vegeta:
 			ldreq r2, =Height_vegeta_idle_right2
 			ldreq r2, [r2]
 			streq r2, [r1]
+			cmp r0, #2
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_vegeta_idle_right3
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_vegeta_idle_right3
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_vegeta_idle_right3
+			ldreq r2, [r2]
+			streq r2, [r1]
+
 
 			moveq r0, #0
 			addne r0, #1
@@ -293,6 +306,18 @@ draw_vegeta:
 			ldreq r2, =Height_vegeta_idle_left2
 			ldreq r2, [r2]
 			streq r2, [r1]
+			cmp r0, #2
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_vegeta_idle_left3
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_vegeta_idle_left3
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_vegeta_idle_left3
+			ldreq r2, [r2]
+			streq r2, [r1]
 
 			moveq r0, #0
 			addne r0, #1
@@ -323,6 +348,18 @@ draw_vegeta:
 		streq r2, [r1]
 		ldreq r1, =vegeta_height
 		ldreq r2, =Height_vegeta_right2
+		ldreq r2, [r2]
+		streq r2, [r1]
+		cmp r0, #2
+		ldreq r1, =vegeta_addr
+		ldreq r2, =Image_Matrix_vegeta_right3
+		streq r2, [r1]
+		ldreq r1, =vegeta_width
+		ldreq r2, =Width_vegeta_right3
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =vegeta_height
+		ldreq r2, =Height_vegeta_right3
 		ldreq r2, [r2]
 		streq r2, [r1]
 
@@ -362,6 +399,19 @@ draw_vegeta:
 		ldreq r2, =Height_vegeta_left2
 		ldreq r2, [r2]
 		streq r2, [r1]
+		cmp r0, #2
+		ldreq r1, =vegeta_addr
+		ldreq r2, =Image_Matrix_vegeta_left3
+		streq r2, [r1]
+		ldreq r1, =vegeta_width
+		ldreq r2, =Width_vegeta_left3
+		ldreq r2, [r2]
+		streq r2, [r1]
+		ldreq r1, =vegeta_height
+		ldreq r2, =Height_vegeta_left3
+		ldreq r2, [r2]
+		streq r2, [r1]
+
 
 		ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
 		moveq r1, #0
@@ -663,61 +713,6 @@ reconstruct_vegeta:
 	pop {pc}
 
 
-/*
-.global update_physics
-update_physics:
-
-	push {lr}
-
-	@ Cargar las variables de Goku
-	ldr r0, =goku_x
-	ldr r0, [r0]
-
-	ldr r1, =goku_y
-	ldr r1, [r1]
-
-	ldr r2, =gravity
-	ldr r2, [r2]
-
-	ldr r3, =goku_velocity_x
-	ldr r3, [r3]
-
-	ldr r4, =goku_velocity_y
-	ldr r4, [r4]
-
-	gokux .req r0
-	gokuy .req r1
-	grav .req r2
-	goku_v_x .req r3
-	goku_v_y .req r4
-
-	add gokuy, goku_v_y
-	ldr r5, =goku_y
-	str gokuy, [r5]
-
-	cmp r1, #300 @ Comparar si colisiona con el piso
-	blt apply_gravity
-	bge collides_w_floor
-
-
-	apply_gravity:
-		add goku_v_y, grav @ Aplicar la gravedad a la velocidad
-		ldr r5, =goku_velocity_y
-		str goku_v_y, [r5]
-		bl reconstruct_goku
-		b end_grav
-
-	collides_w_floor:
-		ldr r5, =goku_velocity_y
-		mov goku_v_y, #0
-		str goku_v_y, [r5]
-		@bl reconstruct_goku
-
-	end_grav:
-
-
-	pop {pc}*/
-
 .global process_input
 process_input:
 	push {lr}
@@ -780,7 +775,7 @@ process_input:
 		mov r1,#1
 		str r1, [r0]
 		ldr r0, =lock_anim_veg
-		mov r1, #1
+		@mov r1, #1
 		strb r1, [r0]
 		ldr r0, =vegeta_o
 		mov r1, #2
