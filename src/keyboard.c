@@ -20,7 +20,7 @@ void enable_key_config()
     tcsetattr(fileno(stdin), TCSANOW, &config_nueva);
 }
 
-/* Funcion en caso de emergencias haha */
+/* funcion que regresa a su estado inicial la consola */
 void disable_key_config()
 {
     tcsetattr(fileno(stdin), TCSANOW, &config_actual);   

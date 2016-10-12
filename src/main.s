@@ -2,6 +2,8 @@
  .align 2
  .global main
 main:
+
+	bl handle_ctrl_c
 	mov r0, #0
 	bl getScreenAddr
 	ldr r1,=pixelAddr
