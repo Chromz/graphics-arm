@@ -47,6 +47,7 @@ main:
 	@ Configurar la consola de linux para leer el teclado
 	bl enable_key_config
 
+	bl collides
 	bl draw_bg
 	render$:
 
@@ -69,6 +70,8 @@ lock_anim_veg: .byte 0
 @ -------------------------------------
 @ Variables de animacion de Vegeta
 @ -------------------------------------
+.global vegeta_hit
+vegeta_hit: .byte 0
 .global vegeta_side
 vegeta_side: .word 1 @ 0 si esta a la derecha, 1 si esta a la izquierda
 .global anim_counter_veg
@@ -90,6 +93,8 @@ vegeta_o: .word 0
 @ -------------------------------------
 @ Variables de animacion de Goku
 @ -------------------------------------
+.global goku_hit
+goku_hit: .byte 0
 .global goku_side
 goku_side: .word 0 @0 si esta a la derecha, 1 si esta a la izquierda
 .global anim_counter
@@ -111,7 +116,7 @@ goku_o: .word 0
 @ Variables de control de las fisicas del mundo
 @ -------------------------------------
 .global gravity
-gravity: .word 1
+gravity: .word 46 @ Ya no se realizaron brincos, por falta de tiempo :c
 @ -------------------------------------
 
 @ Variables de control de las fisicas de Vegeta

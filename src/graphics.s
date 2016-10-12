@@ -282,8 +282,11 @@ draw_vegeta:
 			moveq r1, #0
 			streqb r1, [r2]
 			moveq r0, #0 @Se reinicia el contador de la animacion
+			ldreq r2, =vegeta_hit
+			moveq r3, #0
+			streqb r3, [r2]
 			b change_anim_veg
-			
+
 		update_veg_hit_left:
 			ldr r0, =vegeta_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -330,6 +333,9 @@ draw_vegeta:
 			moveq r1, #0
 			streqb r1, [r2]
 			moveq r0, #0 @Se reinicia el contador de la animacion
+			ldreq r2, =vegeta_hit
+			moveq r3, #0
+			streqb r3, [r2]
 			b change_anim_veg
 
 	check_idle_vegeta:
@@ -630,6 +636,9 @@ draw_goku:
 			moveq r1, #0
 			streqb r1, [r2]
 			moveq r0, #0 @Se reinicia el contador de la animacion
+			ldreq r2, =goku_hit
+			moveq r3, #0
+			streqb r3, [r2]
 			b change_anim
 
 		update_gok_hit_left:
@@ -678,6 +687,9 @@ draw_goku:
 			moveq r1, #0
 			streqb r1, [r2]
 			moveq r0, #0 @Se reinicia el contador de la animacion
+			ldreq r2, =goku_hit
+			moveq r3, #0
+			streqb r3, [r2]
 			b change_anim
 
 	check_idle:
@@ -1050,6 +1062,9 @@ process_input:
 		b ex_process_input
 
 	hitKey_g:
+		ldr r0, =goku_hit
+		mov r1, #1
+		strb r1, [r0]
 		ldr r0, =lock_anim
 		mov r1, #1
 		strb r1, [r0]
@@ -1060,6 +1075,9 @@ process_input:
 		b ex_process_input
 
 	hitKey_v:
+		ldr r0, =vegeta_hit
+		mov r1, #1
+		strb r1, [r0]
 		ldr r0, =lock_anim_veg
 		mov r1, #1
 		strb r1, [r0]
