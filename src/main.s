@@ -74,7 +74,7 @@ vegeta_side: .word 1 @ 0 si esta a la derecha, 1 si esta a la izquierda
 .global anim_counter_veg
 anim_counter_veg: .word 0
 .global anim_tolerance_veg
-anim_tolerance_veg: .word 100
+anim_tolerance_veg: .word 110
 .global vegeta_anim_turn
 vegeta_anim_turn: .word 1
 .global vegeta_width
@@ -95,7 +95,7 @@ goku_side: .word 0 @0 si esta a la derecha, 1 si esta a la izquierda
 .global anim_counter
 anim_counter: .word 0
 .global anim_tolerance
-anim_tolerance: .word 100
+anim_tolerance: .word 110
 .global goku_anim_turn
 goku_anim_turn: .word 1
 .global goku_width

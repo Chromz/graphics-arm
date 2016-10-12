@@ -226,6 +226,111 @@ draw_vegeta:
 	beq update_movr_veg
 	cmp r0, #2
 	beq update_movl_veg
+	cmp r0, #3
+	beq check_hit_v
+
+	check_hit_v:
+		ldr r0, =vegeta_side
+		ldr r1, [r0]
+		cmp r1, #0
+		beq update_veg_hit_right
+		bne update_veg_hit_left
+
+		update_veg_hit_right:
+			ldr r0, =vegeta_anim_turn
+			ldr r0, [r0] @ Obtener el numero de animacion que toca
+			cmp r0, #0
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_v_hitr1
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_v_hitr1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_v_hitr1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #1
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_v_hitr2
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_v_hitr2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_v_hitr2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #2
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_v_hitr3
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_v_hitr3
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_v_hitr3
+			ldreq r2, [r2]
+			streq r2, [r1]
+
+			moveq r0, #0
+			addne r0, #1
+			ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
+			moveq r1, #0
+			streqb r1, [r2]
+			moveq r0, #0 @Se reinicia el contador de la animacion
+			b change_anim_veg
+			
+		update_veg_hit_left:
+			ldr r0, =vegeta_anim_turn
+			ldr r0, [r0] @ Obtener el numero de animacion que toca
+			cmp r0, #0
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_v_hitl1
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_v_hitl1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_v_hitl1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #1
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_v_hitl2
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_v_hitl2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_v_hitl2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #2
+			ldreq r1, =vegeta_addr
+			ldreq r2, =Image_Matrix_v_hitl3
+			streq r2, [r1]
+			ldreq r1, =vegeta_width
+			ldreq r2, =Width_v_hitl3
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =vegeta_height
+			ldreq r2, =Height_v_hitl3
+			ldreq r2, [r2]
+			streq r2, [r1]
+
+			moveq r0, #0
+			addne r0, #1
+			ldreq r2, =lock_anim_veg @Se regresa al idle una vez terminada esta animacion
+			moveq r1, #0
+			streqb r1, [r2]
+			moveq r0, #0 @Se reinicia el contador de la animacion
+			b change_anim_veg
 
 	check_idle_vegeta:
 		ldr r0,=vegeta_side
@@ -469,6 +574,111 @@ draw_goku:
 	beq update_movr_gok
 	cmp r0, #2
 	beq update_movl_gok
+	cmp r0, #3
+	beq check_hit
+
+	check_hit:
+		ldr r0, =goku_side
+		ldr r1, [r0]
+		cmp r1, #0
+		beq update_gok_hit_right
+		bne update_gok_hit_left
+
+		update_gok_hit_right:
+			ldr r0, =goku_anim_turn
+			ldr r0, [r0] @ Obtener el numero de animacion que toca
+			cmp r0, #0
+			ldreq r1, =goku_addr
+			ldreq r2, =Image_Matrix_g_hitr1
+			streq r2, [r1]
+			ldreq r1, =goku_width
+			ldreq r2, =Width_g_hitr1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =goku_height
+			ldreq r2, =Height_g_hitr1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #1
+			ldreq r1, =goku_addr
+			ldreq r2, =Image_Matrix_g_hitr2
+			streq r2, [r1]
+			ldreq r1, =goku_width
+			ldreq r2, =Width_g_hitr2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =goku_height
+			ldreq r2, =Height_g_hitr2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #2
+			ldreq r1, =goku_addr
+			ldreq r2, =Image_Matrix_g_hitr3
+			streq r2, [r1]
+			ldreq r1, =goku_width
+			ldreq r2, =Width_g_hitr3
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =goku_height
+			ldreq r2, =Height_g_hitr3
+			ldreq r2, [r2]
+			streq r2, [r1]
+
+			moveq r0, #0
+			addne r0, #1
+			ldreq r2, =lock_anim @Se regresa al idle una vez terminada esta animacion
+			moveq r1, #0
+			streqb r1, [r2]
+			moveq r0, #0 @Se reinicia el contador de la animacion
+			b change_anim
+
+		update_gok_hit_left:
+			ldr r0, =goku_anim_turn
+			ldr r0, [r0] @ Obtener el numero de animacion que toca
+			cmp r0, #0
+			ldreq r1, =goku_addr
+			ldreq r2, =Image_Matrix_g_hitl1
+			streq r2, [r1]
+			ldreq r1, =goku_width
+			ldreq r2, =Width_g_hitr1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =goku_height
+			ldreq r2, =Height_g_hitr1
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #1
+			ldreq r1, =goku_addr
+			ldreq r2, =Image_Matrix_g_hitl2
+			streq r2, [r1]
+			ldreq r1, =goku_width
+			ldreq r2, =Width_g_hitr2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =goku_height
+			ldreq r2, =Height_g_hitr2
+			ldreq r2, [r2]
+			streq r2, [r1]
+			cmp r0, #2
+			ldreq r1, =goku_addr
+			ldreq r2, =Image_Matrix_g_hitl3
+			streq r2, [r1]
+			ldreq r1, =goku_width
+			ldreq r2, =Width_g_hitr3
+			ldreq r2, [r2]
+			streq r2, [r1]
+			ldreq r1, =goku_height
+			ldreq r2, =Height_g_hitr3
+			ldreq r2, [r2]
+			streq r2, [r1]
+
+			moveq r0, #0
+			addne r0, #1
+			ldreq r2, =lock_anim @Se regresa al idle una vez terminada esta animacion
+			moveq r1, #0
+			streqb r1, [r2]
+			moveq r0, #0 @Se reinicia el contador de la animacion
+			b change_anim
 
 	check_idle:
 		ldr r0,=goku_side
@@ -733,6 +943,8 @@ process_input:
 		beq rightKey
 		cmp r1, #'a'
 		beq leftKey
+		cmp r1, #' '
+		beq hitKey_g
 
 	vegeta_keys:
 		ldr r0, =lock_anim_veg
@@ -748,6 +960,8 @@ process_input:
 		beq rightKey_veg
 		cmp r1, #'D'
 		beq leftKey_veg
+		cmp r1, #'l'
+		beq hitKey_v
 		bne ex_process_input
 
 	rightKey_veg:
@@ -833,6 +1047,26 @@ process_input:
 		cmp r1, r0
 		ldrgt r0,=goku_x
 		strgt r1, [r0]
+		b ex_process_input
+
+	hitKey_g:
+		ldr r0, =lock_anim
+		mov r1, #1
+		strb r1, [r0]
+		ldr r0, =goku_o
+		mov r1, #3
+		str r1, [r0]
+		bl reconstruct_goku
+		b ex_process_input
+
+	hitKey_v:
+		ldr r0, =lock_anim_veg
+		mov r1, #1
+		strb r1, [r0]
+		ldr r0, =vegeta_o
+		mov r1, #3
+		str r1, [r0]
+		bl reconstruct_vegeta
 		b ex_process_input
 
 	upKey:
