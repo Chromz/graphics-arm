@@ -47,14 +47,30 @@ main:
 	@ Configurar la consola de linux para leer el teclado
 	bl enable_key_config
 
-	bl collides
+	@ Se dibuja el fondo
 	bl draw_bg
+
+    @ Se dibuja la vida de vegeta
+    ldr r1, =375
+    ldr r2, =63
+    ldr r3, =vegeta_hp
+    ldr r3, [r3]
+    bl draw_hp
+
+    @ Se dibuja la vida de goku
+    ldr r1, =69
+    ldr r2, =63
+    ldr r3, =goku_hp
+    ldr r3, [r3]
+    bl draw_hp
+
 	render$:
 
 		@bl update_physics @ Aplicarle las fisicas al juego
 		bl process_input @ Procesar el input del teclado
 		bl draw_goku @ Dibujar a Goku
         bl draw_vegeta @Dibujar a vegeta
+        bl check_collision @Verificar si se pegaron, quien a quien y modificar las vidas
 
 	b render$
 
@@ -70,6 +86,8 @@ lock_anim_veg: .byte 0
 @ -------------------------------------
 @ Variables de animacion de Vegeta
 @ -------------------------------------
+.global vegeta_hp
+vegeta_hp: .word 197
 .global vegeta_hit
 vegeta_hit: .byte 0
 .global vegeta_side
@@ -93,6 +111,8 @@ vegeta_o: .word 0
 @ -------------------------------------
 @ Variables de animacion de Goku
 @ -------------------------------------
+.global goku_hp
+goku_hp: .word 197
 .global goku_hit
 goku_hit: .byte 0
 .global goku_side
@@ -138,7 +158,7 @@ goku_velocity_x: .word 0
 .global goku_velocity_y
 goku_velocity_y: .word -1
 .global goku_x
-goku_x: .word 50
+goku_x: .word 120
 .global goku_y
 goku_y: .word 310
 chaa: .byte 'a'

@@ -218,7 +218,7 @@ draw_vegeta:
 	ldrne r1, =anim_counter_veg
 	strne r0, [r1] @ Actualizar el contador de la animacion
 	bne draw_veg
-	ldr r0, =vegeta_o
+	ldr r0, =vegeta_o @Se revisa que animacion se va a realizar
 	ldr r0, [r0]
 	cmp r0, #0
 	beq check_idle_vegeta
@@ -229,6 +229,7 @@ draw_vegeta:
 	cmp r0, #3
 	beq check_hit_v
 
+	@ Se revisa de que lado esta vegeta para hacer la respectiva animacion del golpe
 	check_hit_v:
 		ldr r0, =vegeta_side
 		ldr r1, [r0]
@@ -236,6 +237,7 @@ draw_vegeta:
 		beq update_veg_hit_right
 		bne update_veg_hit_left
 
+		@Se cargan las variables para poder dibujar la animacion de la derecha
 		update_veg_hit_right:
 			ldr r0, =vegeta_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -287,6 +289,7 @@ draw_vegeta:
 			streqb r3, [r2]
 			b change_anim_veg
 
+		@Se cargan las variables para poder dibujar la animacion de la izquierda
 		update_veg_hit_left:
 			ldr r0, =vegeta_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -338,6 +341,7 @@ draw_vegeta:
 			streqb r3, [r2]
 			b change_anim_veg
 
+	@Se revisa de que lado se encuentra vegeta para hacer la respectiva animacion
 	check_idle_vegeta:
 		ldr r0,=vegeta_side
 		ldr r0,[r0]
@@ -345,6 +349,7 @@ draw_vegeta:
 		beq update_idle_veg_right
 		bne update_idle_veg_left
 
+		@ Se cargan las variables para hacer la animacion del idle de la derecha
 		update_idle_veg_right:
 			ldr r0, =vegeta_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -390,6 +395,7 @@ draw_vegeta:
 			addne r0, #1
 			b change_anim_veg
 
+		@Animacion del idle de la izquierda
 		update_idle_veg_left:
 			ldr r0, =vegeta_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -434,6 +440,7 @@ draw_vegeta:
 			addne r0, #1
 			b change_anim_veg
 
+	@Animacion para moverse a la derecha
 	update_movr_veg:
 		ldr r0, =vegeta_anim_turn
 		ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -482,7 +489,7 @@ draw_vegeta:
 		addne r0, #1
 		b change_anim_veg
 
-
+	@Animacion para moverse a la izquierda
 	update_movl_veg:
 		ldr r0, =vegeta_anim_turn
 		ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -532,7 +539,7 @@ draw_vegeta:
 		addne r0, #1
 		b change_anim_veg
 
-
+		@ Se guarda el numero de la animacion siguiente y se borra el vegeta anterior
 		change_anim_veg:
 			ldr r1, =vegeta_anim_turn
 			str r0, [r1] @ Guardar el turno siguiente
@@ -542,6 +549,7 @@ draw_vegeta:
 			bl reconstruct_vegeta
 			b draw_veg
 
+	@Se dibuja la animacion que toca
 	draw_veg:
 		ldr r1, =vegeta_x
 		ldr r1, [r1]
@@ -572,7 +580,7 @@ draw_goku:
 	ldrne r1, =anim_counter
 	strne r0, [r1] @ Actualizar el contador de la animacion
 	bne draw_gok
-	ldr r0, =goku_o
+	ldr r0, =goku_o @ Se revisa que animacion se va a realizar
 	ldr r0, [r0]
 	cmp r0, #0
 	beq check_idle
@@ -583,6 +591,7 @@ draw_goku:
 	cmp r0, #3
 	beq check_hit
 
+	@ Se revisa de que lado esta goku para hacer la respectiva animacion del golpe
 	check_hit:
 		ldr r0, =goku_side
 		ldr r1, [r0]
@@ -590,6 +599,7 @@ draw_goku:
 		beq update_gok_hit_right
 		bne update_gok_hit_left
 
+		@Se cargan las variables para poder dibujar la animacion de la derecha
 		update_gok_hit_right:
 			ldr r0, =goku_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -641,6 +651,7 @@ draw_goku:
 			streqb r3, [r2]
 			b change_anim
 
+		@Se cargan las variables para poder dibujar la animacion de la izquierda
 		update_gok_hit_left:
 			ldr r0, =goku_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -692,6 +703,7 @@ draw_goku:
 			streqb r3, [r2]
 			b change_anim
 
+	@Se revisa de que lado se encuentra goku para hacer la respectiva animacion
 	check_idle:
 		ldr r0,=goku_side
 		ldr r0,[r0]
@@ -699,6 +711,7 @@ draw_goku:
 		beq update_idle_gok_right
 		bne update_idle_gok_left
 
+		@ Se cargan las variables para hacer la animacion del idle de la derecha
 		update_idle_gok_right:
 			ldr r0, =goku_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -743,6 +756,7 @@ draw_goku:
 			addne r0, #1
 			b change_anim
 
+		@ Se cargan las variables para hacer la animacion del idle de la izquierda
 		update_idle_gok_left:
 			ldr r0, =goku_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -787,6 +801,7 @@ draw_goku:
 			addne r0, #1
 			b change_anim
 
+	@ Se cargan las variables para hacer la animacion del idle de la
 	update_movr_gok:
 		ldr r0, =goku_anim_turn
 		ldr r0, [r0] @ Obtener el numero de animacion que toca
@@ -939,13 +954,16 @@ reconstruct_vegeta:
 process_input:
 	push {lr}
 
+	@ Se lee la tecla presionada
 	bl getkey
 	mov r1, r0
+	@ Primero se revisa que goku no este realizando una animacion
 	ldr r0, =lock_anim
 	ldrb r0, [r0]
 	cmp r0, #1
-	beq vegeta_keys
+	beq vegeta_keys @ Si esta realizando una animacion, se salta a las teclas de vegeta
 
+	@ Se revisan las teclas de goku
 	goku_keys:
 		cmp r1, #'w'
 		beq upKey
@@ -958,7 +976,9 @@ process_input:
 		cmp r1, #' '
 		beq hitKey_g
 
+	@ Se revisan las teclas de vegeta
 	vegeta_keys:
+		@ Primero se revisa que vegeta no este realizando una animacion
 		ldr r0, =lock_anim_veg
 		ldrb r0, [r0]
 		cmp r0, #1
@@ -976,6 +996,7 @@ process_input:
 		beq hitKey_v
 		bne ex_process_input
 
+	@ Se realiza la animacion de vegeta hacia la derecha
 	rightKey_veg:
 		ldr r0, =vegeta_side
 		mov r1,#0
@@ -996,6 +1017,7 @@ process_input:
 		strlt r1, [r0]
 		b ex_process_input
 
+	@ Se realiza la animacion de vegeta hacia la izquierda
 	leftKey_veg:
 		ldr r0, =vegeta_side
 		mov r1,#1
@@ -1021,6 +1043,7 @@ process_input:
 	downKey_veg:
 		b ex_process_input
 
+	@ Se realiza la animacion de derecha de goku
 	rightKey:
 		ldr r0, =goku_side
 		mov r1,#0
@@ -1041,6 +1064,7 @@ process_input:
 		strlt r1, [r0]
 		b ex_process_input
 
+	@ Se realiza la animacion de izquierda de goku
 	leftKey:
 		ldr r0, =goku_side
 		mov r1,#1
@@ -1061,6 +1085,7 @@ process_input:
 		strgt r1, [r0]
 		b ex_process_input
 
+	@Se realiza la animacion de golpe de goku
 	hitKey_g:
 		ldr r0, =goku_hit
 		mov r1, #1
@@ -1074,6 +1099,7 @@ process_input:
 		bl reconstruct_goku
 		b ex_process_input
 
+	@ Se realiza la animacion de golpe de vegeta
 	hitKey_v:
 		ldr r0, =vegeta_hit
 		mov r1, #1

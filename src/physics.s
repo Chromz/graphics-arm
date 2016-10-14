@@ -31,7 +31,7 @@ collides:
 	vh .req r7
 	aux .req r8
 
-	add aux, vx, vw 
+	add aux, vx, vw
 	cmp gx, aux
 	bge no_collision
 	add aux, gx, gw
@@ -44,6 +44,14 @@ collides:
 	cmp aux, vy
 	ble no_collision
 
+	.unreq gx
+	.unreq gy
+	.unreq vx
+	.unreq vy
+	.unreq gw
+	.unreq gh
+	.unreq vw
+	.unreq vh
 
 	ldr r0, =goku_hit
 	ldrb r0, [r0]
@@ -55,19 +63,114 @@ collides:
 	moveq r0, #0 @ No se pegaron
 	mov pc, lr
 
-	.unreq gx
-	.unreq gy
-	.unreq vx
-	.unreq vy
-	.unreq gw
-	.unreq gh
-	.unreq vw
-	.unreq vh
-
-
 	no_collision:
 		mov r0, #0
 		mov pc, lr
 
+.global check_collision
+check_collision:
+	push {lr}
 
-	
+	bl collides
+
+	cmp r0, #1
+	bleq reconstruct_hp_vegeta
+	ldreq r1, =375
+	ldreq r2, =63
+	ldreq r3, =vegeta_hp
+	ldreq r3, [r3]
+	subeq r3, #20
+	ldreq r4, =vegeta_hp
+	streq r3, [r4]
+	bleq draw_hp
+
+	cmp r0, #2
+	bleq reconstruct_hp_goku
+	ldreq r1, =69
+	ldreq r2, =63
+	ldreq r3, =goku_hp
+	ldreq r3, [r3]
+	subeq r3, #20
+	ldreq r4, =goku_hp
+	streq r3, [r4]
+	bleq draw_hp
+
+	ldr r0, =vegeta_hit
+	mov r1, #0
+	strb r1, [r0]
+	ldr r0, =goku_hit
+	mov r1, #0
+	strb r1, [r0]
+
+	pop {pc}
+
+.global reconstruct_hp_vegeta
+reconstruct_hp_vegeta:
+	push {lr}
+	ldr r0,= 375
+	ldr r1,= 63
+	ldr r2,= 197
+	ldr r3,= 28
+	bl reconstruct
+	pop {pc}
+
+.global reconstruct_hp_goku
+reconstruct_hp_goku:
+	push {lr}
+	ldr r0,= 69
+ 	ldr r1,= 63
+	ldr r2,= 197
+	ldr r3,= 28
+	bl reconstruct
+	pop {pc}
+
+@ R1: Coordenada x de la vida
+@ R2: Coordenada y de la vida
+@ R3: Vida del personaje
+.global draw_hp
+draw_hp:
+	push {lr}
+
+	mov r6, r3
+
+	x .req r1
+	y .req r2
+	color .req r3
+	xFinal .req r4
+	yFinal .req r5
+
+	ldr color, =63488
+
+	add xFinal, x, r6
+	add yFinal, y, #27
+
+	mov r6, x
+
+	nextYVegetaHp:
+		add y,#1
+		cmp y, yFinal
+		bgt finVegetaHp
+
+		mov x, r6
+		nextXVegetaHp:
+			cmp x, xFinal
+			bge nextYVegetaHp
+
+			ldr r0,=pixelAddr
+			ldr r0,[r0]
+			push {r0-r12}
+			bl pixel
+			pop {r0-r12}
+
+			add x,#1
+			b nextXVegetaHp
+
+
+	finVegetaHp:
+		.unreq x
+		.unreq y
+		.unreq color
+		.unreq xFinal
+		.unreq yFinal
+
+	pop {pc}
