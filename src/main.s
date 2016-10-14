@@ -8,6 +8,14 @@ main:
 	bl getScreenAddr
 	ldr r1,=pixelAddr
 	str r0,[r1]
+	
+	bl enable_key_config
+
+	bl draw_controls
+	renderControls:
+		bl getkey
+		cmp r0, #' '
+		bne renderControls
 
 	@ Cargar el sprite inicial de Goku
 	ldr r0, =Image_Matrix_goku_idle_right1
@@ -45,7 +53,6 @@ main:
 
 
 	@ Configurar la consola de linux para leer el teclado
-	bl enable_key_config
 
 	@ Se dibuja el fondo
 	bl draw_bg

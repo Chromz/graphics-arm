@@ -116,6 +116,20 @@ draw_hero:
 	pop {pc}
 
 
+.global draw_controls
+draw_controls:
+	push {lr}
+	ldr r0, =Image_Matrix_inicio
+	mov r1, #0
+	mov r2, #0
+	ldr r3, =Width_inicio
+	ldr r3, [r3]
+	ldr r4, =Height_inicio
+	ldr r4, [r4]
+	str r4, [sp, #-4]!
+	bl draw_image
+	pop {pc}
+
 .global draw_bg
 draw_bg:
 	push {lr}
