@@ -1,7 +1,25 @@
-@ Subrutina que devuele quien le pego a quien
-@ 0 si no se pegaron o empate
-@ 1 Si Goku le pego a vegeta
-@ 2 Si Vegeta le pego a Goku
+ /*********************************************************
+ * Autores: Jose Rodrigo Custodio, Alejandro Chaclan      *
+ * Taller de Assembler, Seccion: 30                       *
+ * Descripcion: Subrutinas relacionadas con colisiones y  *
+ * fisicas.                                               *
+ * La mayoria de estas subrutinas sirven para agregar     *
+ * una capa de abstraccion para solo ejecutar metodos     *
+ * sencillos en el main.                                  *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ **********************************************************
+
+
+/* Subrutina que devuele quien le pego a quien
+* 0 si no se pegaron o empate
+* 1 Si Goku le pego a vegeta
+* 2 Si Vegeta le pego a Goku
+*/
 .global collides
 collides:
 	ldr r0, =goku_x
@@ -31,6 +49,8 @@ collides:
 	vh .req r7
 	aux .req r8
 
+	@ Comparar las dimensiones de los cuadrados formados por goku y vegeta
+	@ Si se intersectan, es colision de lo contrario no.
 	add aux, vx, vw
 	cmp gx, aux
 	bge no_collision
@@ -54,9 +74,9 @@ collides:
 	.unreq vh
 
 	ldr r0, =goku_hit
-	ldrb r0, [r0]
+	ldrb r0, [r0] @ Obtener la bandera si goku realizo un golpe
 	ldr r1, =vegeta_hit
-	ldrb r1, [r1]
+	ldrb r1, [r1] @ Obtener la bandera si vegeta realizo un golpe
 	cmp r0, r1
 	movgt r0, #1 @ Goku le pego
 	movlt r0, #2 @ Vegeta le pego

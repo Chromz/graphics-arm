@@ -1,3 +1,19 @@
+ /*********************************************************
+ * Autores: Jose Rodrigo Custodio, Alejandro Chaclan      *
+ * Taller de Assembler, Seccion: 30                       *
+ * Descripcion: Subrutinas relacionadas con graficos      *
+ * La mayoria de estas subrutinas sirven para agregar     *
+ * una capa de abstraccion para solo ejecutar metodos     *
+ * sencillos en el main.                                  *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ **********************************************************
+ */
+
 /*
 * R0, Direccion de memoria a la matriz
 * R1, X inicial
@@ -5,6 +21,8 @@
 * R3, Width de la matriz
 * Stack-1 Height de la matriz
 * Codigo Basado en el proporcionado en blackboard
+* Dibuja de forma generica una imagen de dimensiones dadas
+* en coordenadas dadas
 */
 .global draw_image
 draw_image:
@@ -58,6 +76,14 @@ draw_image:
 
 	pop {pc}
 
+/**
+* R0, Direccion de memoria a la matriz
+* R1, X inicial
+* R2, Y inicial
+* R3, Width de la matriz
+* Stack-1 Height de la matriz
+* Dibuja a un heroe del juego, con transparencia (ignora el color rojo = 63488)
+*/
 .global draw_hero
 draw_hero:
 	ldr r5, [sp], #4
@@ -85,7 +111,7 @@ draw_hero:
 			cmp x, finalx
 			bge next_y0
 			ldrh color, [matrix_addr, matrix_counter]
-			ldr r0, =63488
+			ldr r0, =63488 @ Color rojo a ignorar
 			cmp color, r0
 			addeq matrix_counter, #2
 			addeq x, #1
@@ -115,7 +141,12 @@ draw_hero:
 
 	pop {pc}
 
-
+/**
+*
+* Metodo de abstraccion
+* Dibuja unicamente la pantalla de controles del inicio
+*
+*/
 .global draw_controls
 draw_controls:
 	push {lr}
@@ -130,6 +161,12 @@ draw_controls:
 	bl draw_image
 	pop {pc}
 
+/**
+*
+* Metodo de abstraccion
+* Dibuja unicamente la pantalla cuando goku gana
+*
+*/
 .global draw_goku_win
 draw_goku_win:
 	push {lr}
@@ -143,7 +180,12 @@ draw_goku_win:
 	str r4, [sp, #-4]!
 	bl draw_image
 	pop {pc}
-
+/**
+*
+* Metodo de abstraccion
+* Dibuja unicamente la pantalla cuando vegeta gana
+*
+*/
 .global draw_vegeta_win
 draw_vegeta_win:
 	push {lr}
@@ -158,6 +200,12 @@ draw_vegeta_win:
 	bl draw_image
 	pop {pc}
 
+/**
+*
+* Metodo de abstraccion
+* Dibuja unicamente el fondo de pantalla
+*
+*/
 .global draw_bg
 draw_bg:
 	push {lr}
@@ -171,11 +219,16 @@ draw_bg:
 	str r4, [sp, #-4]!
 	bl draw_image
 	pop {pc}
+/*
+* R0, x0 a reconstruir
+* R1, y0 a reconstruir
+* R2, Width de la reconstruccion
+* R3, Height de la reconstruccion
+* Metodo encargado de reconstruir solo un pedazo
+* del fondo (con el objetivo de aumentar el rendimiento)
+* calcula el offset en la matriz con la subrutina calculate_offset
+*/
 
-@ R0, x0 a reconstruir
-@ R1, y0 a reconstruir
-@ R2, Width de la reconstruccion
-@ R3, Height de la reconstruccion
 .global reconstruct
 reconstruct:
 	push {lr}
@@ -214,7 +267,7 @@ reconstruct:
 		push {r0-r3}
 		ldr r0, =Width_bg
 		ldr r0, [r0]
-		bl calculate_offset
+		bl calculate_offset @ Obtener el offset de la matriz
 		mov bytecounter, r0 @ Guardar la pos inicial del byte counter
 		pop {r0-r3}
 		draw_pixel1:
@@ -244,8 +297,26 @@ reconstruct:
 	.unreq height
 	.unreq matrix_addr
 	pop {pc}
+/*
+*
+* Calcula el offset de la matriz de una imagen de
+* 16 bits de depth
+*
+*/
+.global calculate_offset
+calculate_offset:
+	mov r3, #2
+	mul r0, r3, r0
+	mul r0, r2, r0
+	mul r1, r3, r1
+	add r0, r1
+	mov pc, lr
 
-
+/**
+* Metodo de abstraccion
+* Metodo que realiza todas las animaciones de Vegeta
+* Golpes y movimiento
+*/
 .global draw_vegeta
 draw_vegeta:
 	push {lr}
@@ -283,7 +354,7 @@ draw_vegeta:
 		update_veg_hit_right:
 			ldr r0, =vegeta_anim_turn
 			ldr r0, [r0] @ Obtener el numero de animacion que toca
-			cmp r0, #0
+			cmp r0, #0 @ Verificar si es el primer sprite
 			ldreq r1, =vegeta_addr
 			ldreq r2, =Image_Matrix_v_hitr1
 			streq r2, [r1]
@@ -295,7 +366,7 @@ draw_vegeta:
 			ldreq r2, =Height_v_hitr1
 			ldreq r2, [r2]
 			streq r2, [r1]
-			cmp r0, #1
+			cmp r0, #1 @ Verificar si es el segundo sprite
 			ldreq r1, =vegeta_addr
 			ldreq r2, =Image_Matrix_v_hitr2
 			streq r2, [r1]
@@ -307,7 +378,7 @@ draw_vegeta:
 			ldreq r2, =Height_v_hitr2
 			ldreq r2, [r2]
 			streq r2, [r1]
-			cmp r0, #2
+			cmp r0, #2 @ Verificar si es el tercer sprite
 			ldreq r1, =vegeta_addr
 			ldreq r2, =Image_Matrix_v_hitr3
 			streq r2, [r1]
@@ -328,7 +399,7 @@ draw_vegeta:
 			moveq r0, #0 @Se reinicia el contador de la animacion
 			ldreq r2, =vegeta_hit
 			moveq r3, #0
-			streqb r3, [r2]
+			streqb r3, [r2] @ Activar la bandera de golpe de Vegeta
 			b change_anim_veg
 
 		@Se cargan las variables para poder dibujar la animacion de la izquierda
@@ -607,7 +678,11 @@ draw_vegeta:
 		bl draw_hero
 pop {pc}
 
-
+/**
+* Metodo de abstraccion
+* Metodo que realiza todas las animaciones de Goku
+* Golpes y movimiento
+*/
 .global draw_goku
 draw_goku:
 	push {lr}
@@ -690,7 +765,7 @@ draw_goku:
 			moveq r0, #0 @Se reinicia el contador de la animacion
 			ldreq r2, =goku_hit
 			moveq r3, #0
-			streqb r3, [r2]
+			streqb r3, [r2] @ Activar la bandera de golpe de goku
 			b change_anim
 
 		@Se cargan las variables para poder dibujar la animacion de la izquierda
@@ -965,7 +1040,10 @@ draw_goku:
 		bl draw_hero
 	pop {pc}
 
-
+/**
+* Metodo de abstraccion
+* Reconstruye el pedazo de fondo en donde se encuentra goku
+*/
 .global reconstruct_goku
 reconstruct_goku:
 	push {lr}
@@ -978,7 +1056,10 @@ reconstruct_goku:
 	bl reconstruct
 	pop {pc}
 
-
+/**
+* Metodo de abstraccion
+* Reconstruye el pedazo de fondo en donde se encuentra vegeta
+*/
 .global reconstruct_vegeta
 reconstruct_vegeta:
 	push {lr}
@@ -1178,25 +1259,5 @@ process_input:
 
 		pop {pc}
 
-@ R0, Width
-@ R1, X
-@ R2, Y
-.global calculate_offset
-calculate_offset:
-	mov r3, #2
-	mul r0, r3, r0
-	mul r0, r2, r0
-	mul r1, r3, r1
-	add r0, r1
-	mov pc, lr
 
 
-.global wait
-wait:
-	ldr r0,=10000
-	mov r1, #0
-	sleep:
-		add r1, #1
-		cmp r1, r0
-		bne sleep
-	mov pc, lr

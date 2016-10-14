@@ -1,3 +1,18 @@
+ /*********************************************************
+ * Autores: Jose Rodrigo Custodio, Alejandro Chaclan      *
+ * Taller de Assembler, Seccion: 30                       *
+ * Descripcion: Main del programa                         *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ *                                                        *
+ **********************************************************
+ */
  .text
  .align 2
  .global main
@@ -79,11 +94,13 @@ main:
         bl draw_vegeta @Dibujar a vegeta
         bl check_collision @Verificar si se pegaron, quien a quien y modificar las vidas
 
+        @ Verificar si la vida de vegeta es 0
         ldr r0, =vegeta_hp
         ldr r0, [r0]
         cmp r0, #0
         ble gano_gok
 
+        @ Verigicar si la vida de goku es 0
         ldr r0, =goku_hp
         ldr r0, [r0]
         cmp r0, #0
@@ -100,7 +117,7 @@ main:
 		b secure_exit
 
 	secure_exit:
-		bl secure_leave
+		bl secure_leave @ Devolver la consola a su estado normal
 
 
 
