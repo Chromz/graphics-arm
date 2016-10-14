@@ -146,15 +146,15 @@ draw_hp:
 
 	mov r6, x
 
-	nextYVegetaHp:
+	nextYHp:
 		add y,#1
 		cmp y, yFinal
-		bgt finVegetaHp
+		bgt endHp
 
 		mov x, r6
-		nextXVegetaHp:
+		nextXHp:
 			cmp x, xFinal
-			bge nextYVegetaHp
+			bge nextYHp
 
 			ldr r0,=pixelAddr
 			ldr r0,[r0]
@@ -163,10 +163,10 @@ draw_hp:
 			pop {r0-r12}
 
 			add x,#1
-			b nextXVegetaHp
+			b nextXHp
 
 
-	finVegetaHp:
+	endHp:
 		.unreq x
 		.unreq y
 		.unreq color
