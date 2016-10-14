@@ -130,6 +130,34 @@ draw_controls:
 	bl draw_image
 	pop {pc}
 
+.global draw_goku_win
+draw_goku_win:
+	push {lr}
+	ldr r0, =Image_Matrix_gano_goku
+	mov r1, #0
+	mov r2, #0
+	ldr r3, =Width_gano_goku
+	ldr r3, [r3]
+	ldr r4, =Height_gano_goku
+	ldr r4, [r4]
+	str r4, [sp, #-4]!
+	bl draw_image
+	pop {pc}
+
+.global draw_vegeta_win
+draw_vegeta_win:
+	push {lr}
+	ldr r0, =Image_Matrix_gano_vegeta
+	mov r1, #0
+	mov r2, #0
+	ldr r3, =Width_gano_vegeta
+	ldr r3, [r3]
+	ldr r4, =Height_gano_vegeta
+	ldr r4, [r4]
+	str r4, [sp, #-4]!
+	bl draw_image
+	pop {pc}
+
 .global draw_bg
 draw_bg:
 	push {lr}

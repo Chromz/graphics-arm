@@ -8,7 +8,7 @@ main:
 	bl getScreenAddr
 	ldr r1,=pixelAddr
 	str r0,[r1]
-	
+
 	bl enable_key_config
 
 	bl draw_controls
@@ -79,7 +79,29 @@ main:
         bl draw_vegeta @Dibujar a vegeta
         bl check_collision @Verificar si se pegaron, quien a quien y modificar las vidas
 
+        ldr r0, =vegeta_hp
+        ldr r0, [r0]
+        cmp r0, #0
+        ble gano_gok
+
+        ldr r0, =goku_hp
+        ldr r0, [r0]
+        cmp r0, #0
+        ble gano_veg
+
 	b render$
+
+	gano_gok:
+		bl draw_goku_win
+		b secure_exit
+
+	gano_veg:
+		bl draw_vegeta_win
+		b secure_exit
+
+	secure_exit:
+		bl secure_leave
+
 
 
 .data
